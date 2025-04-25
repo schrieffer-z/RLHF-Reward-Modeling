@@ -67,7 +67,8 @@ parser.add_argument(
 args = parser.parse_args()  # Parse the provided command-line arguments
 
 # Load the specified dataset and prepare it for processing
-ds = datasets.load_dataset(args.dataset_path)[
+
+ds = datasets.load_dataset('parquet', data_dir=args.dataset_path)[
     "train"
 ]  # Load the training split of the dataset
 ds = ds.shuffle(seed=0)  # Shuffle the dataset to ensure randomness
@@ -125,12 +126,12 @@ labels = torch.from_numpy(labels)  # Convert the NumPy array to a PyTorch tensor
 embeddings = torch.stack(embeddings, dim=0)  # Stack all embeddings into a single tensor
 
 # Define the path to save the embeddings and labels
-HOME = os.path.expanduser("~")  # Get the home directory of the current user
+HOME = '/mnt/finder/lisihang/xAI-RLHF/Shuyi/RLHF-Reward-Modeling'  # Get the home directory of the current user
 model_name = args.model_path.split("/")[
-    -1
+    -2
 ]  # Extract the model name from the model path
 dataset_name = args.dataset_path.split("/")[
-    -1
+    -2
 ]  # Extract the dataset name from the dataset path
 save_path = os.path.join(
     HOME, "data", "ArmoRM", "embeddings", model_name, dataset_name

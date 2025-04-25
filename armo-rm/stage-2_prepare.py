@@ -84,16 +84,16 @@ else:
     raise ValueError(f"Model family {args.model_family} is not supported")
 
 # Set up paths for saving embeddings
-HOME = os.path.expanduser("~")
-model_name = args.model_path.split("/")[-1]
-dataset_name = args.dataset_path.split("/")[-1]
+HOME = '/mnt/finder/lisihang/xAI-RLHF/Shuyi/RLHF-Reward-Modeling'
+model_name = args.model_path.split("/")[-2]
+dataset_name = args.dataset_path.split("/")[-2]
 save_path = HOME + f"/data/ArmoRM/embeddings/{model_name}/{dataset_name}"
 if args.source is not None:
     save_path += f"-{args.source}"
 save_path += f"-{args.dataset_split}"
 
 # Load and prepare the dataset
-ds = datasets.load_dataset(args.dataset_path, split=args.dataset_split)
+ds = datasets.load_dataset('parquet', data_files=args.dataset_path)[args.dataset_split]
 if args.source is not None:
     ds = ds.filter(lambda x: x["source"] == args.source)
 if args.n_shards > 1:

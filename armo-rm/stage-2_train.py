@@ -347,7 +347,7 @@ parser.add_argument("--dropout", type=float, default=0.2)
 args = parser.parse_args()
 
 # Define default paths
-HOME = os.path.expanduser("~")
+HOME = '/mnt/finder/lisihang/xAI-RLHF/Shuyi/RLHF-Reward-Modeling'
 
 if args.reference_dataset is None:
     args.reference_dataset = args.preference_dataset
@@ -355,10 +355,10 @@ if args.reference_dataset is None:
         f"Using {args.preference_dataset} as the reference dataset for verbosity debiasing."
     )
 
-args.model_name = args.model_path.split("/")[-1]
-args.multi_objective_dataset_name = args.multi_objective_dataset.split("/")[-1]
-args.preference_dataset_name = args.preference_dataset.split("/")[-1]
-args.reference_dataset_name = args.reference_dataset.split("/")[-1]
+args.model_name = args.model_path.split("/")[-2]
+args.multi_objective_dataset_name = args.multi_objective_dataset.split("/")[-2]
+args.preference_dataset_name = args.preference_dataset.split("/")[-2]
+args.reference_dataset_name = args.reference_dataset.split("/")[-2]
 
 args.embedding_path = f"{HOME}/data/ArmoRM/embeddings/{args.model_name}/{args.preference_dataset_name}*.safetensors"
 args.regression_layer_path = f"{HOME}/data/ArmoRM/regression_weights/{args.model_name}_{args.multi_objective_dataset_name}.pt"
@@ -484,8 +484,11 @@ if args.eval_reward_bench:
             reward_bench_embeddings @ regression_layer.T * gating_weights_rb, dim=-1
         )
         correct_rb = (pred_rb[:, 0] > pred_rb[:, 1]).float()
-
-    reward_bench_ds = datasets.load_dataset("allenai/reward-bench", split="filtered")
+    
+    reward_bench_ds = datasets.load_dataset(
+            'parquet', 
+            data_files=['/mnt/finder/lisihang/xAI-RLHF/Shuyi/datasets/reward-bench/data/filtered-00000-of-00001.parquet']
+    )['train']
     df_examples = pd.DataFrame(
         {"subset": reward_bench_ds["subset"], "correct": correct_rb.cpu().numpy()}
     )

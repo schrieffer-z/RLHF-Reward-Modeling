@@ -79,7 +79,7 @@ attributes = [
 ]
 
 # Set the home directory
-HOME = os.path.expanduser("~")
+HOME = '/mnt/finder/lisihang/xAI-RLHF/Shuyi/RLHF-Reward-Modeling'
 
 # Define the path to the embeddings based on user input or default location
 if args.embeddings_dir:
@@ -91,7 +91,7 @@ else:
 
 # Collect all embedding files matching the pattern embeddings_path-*.safetensors
 embedding_files = sorted(glob(f"{embeddings_path}-*.safetensors"))
-
+print(embedding_files)
 # ---------------------------
 # Loading Embeddings and Labels
 # ---------------------------
