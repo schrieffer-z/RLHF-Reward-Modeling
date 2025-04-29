@@ -86,7 +86,7 @@ else:
 # Set up paths for saving embeddings
 HOME = '/mnt/finder/lisihang/xAI-RLHF/Shuyi/RLHF-Reward-Modeling'
 model_name = args.model_path.split("/")[-2]
-dataset_name = args.dataset_path.split("/")[-2]
+dataset_name = args.dataset_path.split("/")[-3]
 save_path = HOME + f"/data/ArmoRM/embeddings/{model_name}/{dataset_name}"
 if args.source is not None:
     save_path += f"-{args.source}"
